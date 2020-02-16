@@ -98,6 +98,7 @@ function setTimer(flag) {
   }
 }
 
+
 function startGame() {
   let random = Math.floor(Math.random()*(countriesArr.length));
   let points = 0;
@@ -136,8 +137,24 @@ function startGame() {
 const g = document.querySelector('.g');
 let indicator = 0;
 
-g.addEventListener('contextmenu', (e) => {
-  if(window.innerWidth > 620) {
+function is_touch_device() {
+  var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+  
+  var mq = function (query) {
+    return window.matchMedia(query).matches;
+  }
+
+  if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+    return true;
+  }
+
+  var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+  return mq(query);
+}
+
+
+if(is_touch_device() == false) {
+  g.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     
     const viewbox1 = 812;
@@ -221,5 +238,5 @@ g.addEventListener('contextmenu', (e) => {
       g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-34,-34.8)`);
     }
     return false;
-  }
-}, false)
+  }, false)
+}
