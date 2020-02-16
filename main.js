@@ -137,88 +137,89 @@ const g = document.querySelector('.g');
 let indicator = 0;
 
 g.addEventListener('contextmenu', (e) => {
-  e.preventDefault();
-  
-  const viewbox1 = 812;
-  const viewbox2 = 676;
-  const x2 = e.clientX - g.getBoundingClientRect().left;
-  const y2 = e.clientY - g.getBoundingClientRect().top;
-  const w = g.getBoundingClientRect().width;
-  const h = g.getBoundingClientRect().height;
-  
-  indicator++;
-  const svg = document.querySelector('svg');
-  
-  svg.setAttribute('viewBox', `0 0 ${viewbox1-w/2+50} ${viewbox2-h/2+50}`);
-
-  let left;
-  let top;
-
-  if(x2 > w/2 && y2 > h/2) {
-    left = w/2+34-50;
-    top = h/2+34.8-50;
-  } else if(x2 < w/2 && y2 > h/2) {
-    left = 34;
-    top = h/2+34.8-50;
-  } else  if(x2 > w/2 && y2 < h/2) {
-    left = w/2+34-50;
-    top = 34.8;
-  } else if(x2 < w/2 && y2 < h/2) {
-    left = 34;
-    top = 34.8;
-  }
-
-  g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-${left},-${top})`);
-  var map = {};
-
-  if(indicator % 2 != 0) {
-    onkeydown = onkeyup = function(e){
-      if(indicator % 2 != 0) {
-
-        map[e.keyCode] = e.type == 'keydown';
-        if(e.keyCode == '38') {
-          top -= 7;;   
-        } else if(e.keyCode == '37') {
-          left -= 7;
-        } else if(e.keyCode == '39') {
-          left += 7;
-        } else if(e.keyCode == '40') {
-          top += 7;
-        }
-  
-        if(map[37] && map[38]) {
-          top -= 7;
-          left -= 7;
-        } else if(map[38] && map[39]){
-          top -= 7;
-          left += 7;
-        } else if(map[37] && map[40]){
-          top += 7;
-          left -= 7;
-        } else if(map[39] && map[40]){
-          top += 7;
-          left += 7;
-        }
-  
-        if (top < 34.718) {
-          top = 34.718;
-        } if (left < 34) {
-          left = 34;
-        } if (top > h/2+34.8-50) {
-          top = h/2+34.8-50;
-        } if (left > w/2+34-50) {
-          left = w/2+34-50;
-        }
+  if(window.innerWidth > 620) {
+    e.preventDefault();
     
-        g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-${left},-${top})`);
+    const viewbox1 = 812;
+    const viewbox2 = 676;
+    const x2 = e.clientX - g.getBoundingClientRect().left;
+    const y2 = e.clientY - g.getBoundingClientRect().top;
+    const w = g.getBoundingClientRect().width;
+    const h = g.getBoundingClientRect().height;
+    
+    indicator++;
+    const svg = document.querySelector('svg');
+    
+    svg.setAttribute('viewBox', `0 0 ${Math.abs(viewbox1-w/2+50)} ${Math.abs(viewbox2-h/2+50)}`);
+  
+    let left;
+    let top;
+  
+    if(x2 > w/2 && y2 > h/2) {
+      left = w/2+34-150;
+      top = h/2+34.8-150;
+    } else if(x2 < w/2 && y2 > h/2) {
+      left = 34+150;
+      top = h/2+34.8-150;
+    } else  if(x2 > w/2 && y2 < h/2) {
+      left = w/2+34-150;
+      top = 34.8+150;
+    } else if(x2 < w/2 && y2 < h/2) {
+      left = 34+150;
+      top = 34.8+150;
+    }
+  
+    g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-${left},-${top})`);
+    var map = {};
+  
+    if(indicator % 2 != 0) {
+      onkeydown = onkeyup = function(e){
+        if(indicator % 2 != 0) {
+  
+          map[e.keyCode] = e.type == 'keydown';
+          if(e.keyCode == '38') {
+            top -= 7;;   
+          } else if(e.keyCode == '37') {
+            left -= 7;
+          } else if(e.keyCode == '39') {
+            left += 7;
+          } else if(e.keyCode == '40') {
+            top += 7;
+          }
+    
+          if(map[37] && map[38]) {
+            top -= 7;
+            left -= 7;
+          } else if(map[38] && map[39]){
+            top -= 7;
+            left += 7;
+          } else if(map[37] && map[40]){
+            top += 7;
+            left -= 7;
+          } else if(map[39] && map[40]){
+            top += 7;
+            left += 7;
+          }
+    
+          if (top < 34.718) {
+            top = 34.718;
+          } if (left < 34) {
+            left = 34;
+          } if (top > h/2+34.8-50) {
+            top = h/2+34.8-50;
+          } if (left > w/2+34-50) {
+            left = w/2+34-50;
+          }
+      
+          g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-${left},-${top})`);
+        }
       }
     }
+  
+    if(indicator % 2 == 0) {
+      svg.setAttribute('viewBox', `0 0 ${viewbox1} ${viewbox2}`);
+      g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-34,-34.8)`);
+    }
+    return false;
   }
-
-  if(indicator % 2 == 0) {
-    console.log('fasf');
-    svg.setAttribute('viewBox', `0 0 ${viewbox1} ${viewbox2}`);
-    g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-34,-34.8)`);
-  }
-  return false;
 }, false)
