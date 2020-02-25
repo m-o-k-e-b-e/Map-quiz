@@ -32,6 +32,7 @@ start.addEventListener('click', () => {
     setTimer();
   } else {
     info.classList.add('wrong');
+    info.style.display = 'block';
   }
 })
 
