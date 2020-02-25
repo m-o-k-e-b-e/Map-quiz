@@ -1,12 +1,8 @@
 const countries = document.querySelectorAll('.country');
 const countriesArr = [];
 const start = document.querySelector('.start');
-const result = document.querySelector('.result');
-const pointsHtml = document.querySelector('.points');
-const mistakesHtml = document.querySelector('.mistakes');
 const input = document.querySelector('.rounds-input');
 const info = document.querySelector('.info');
-const max = document.querySelector('.max');
 const timer = document.querySelector('.timer');
 
 start.addEventListener('click', () => {
@@ -39,22 +35,18 @@ start.addEventListener('click', () => {
   }
 })
 
+const max = document.querySelector('.max');
+
 max.addEventListener('click', () => {
   input.value = countries.length;
 })
 
-function generateRandom() {
-  const random = Math.floor(Math.random()*(countriesArr.length));
-  return random;
-}
-
 function updatePoints(pt, mt) {
-  pointsHtml.innerHTML = `Zaliczone: <span class="hl">${pt}/${input.value}</span>`;
-  mistakesHtml.innerHTML = `Błędy: <span class="hl">${mt}</span>`;
-}
+  const pointsEl = document.querySelector('.points');
+  const mistakesEl = document.querySelector('.mistakes');
 
-function addColor(el, type) {
-  el.classList.add(type);
+  pointsEl.innerHTML = `Zaliczone: <span class="hl">${pt}/${input.value}</span>`;
+  mistakesEl.innerHTML = `Błędy: <span class="hl">${mt}</span>`;
 }
 
 function removeColors() {
@@ -86,7 +78,7 @@ function setTimer(flag) {
       s++;
       s2++
   
-      if(s > 60) {
+      if(s >= 60) {
         s = 0;
         m++;
       }
@@ -98,30 +90,29 @@ function setTimer(flag) {
   }
 }
 
-
 function startGame() {
-  let random = Math.floor(Math.random()*(countriesArr.length));
   let points = 0;
   let mistakes = 0;
   const toSelect = document.querySelector('.to-select');
 
-  toSelect.innerHTML = `Zaznacz: <span class="hl">${countriesArr[random]}</span>`;
+  toSelect.innerHTML = `Zaznacz: <span class="hl">${countriesArr[0]}</span>`;
   updatePoints(points, mistakes);
 
-  countries.forEach(country => country.addEventListener('click', (e) => {
+  countries.forEach(country => country.addEventListener('click', () => {
     const selected = country.getAttribute('name');
-    if (selected == countriesArr[random]) {
+    if(selected == countriesArr[0]) {
       points++;
-      countriesArr.splice(random, 1);
-      addColor(country, 'correct');
+      countriesArr.splice(0, 1);
+      country.classList.add('correct');
       removeColors();
-      random = generateRandom();
     } else if(!country.classList.contains('incorrect') && !country.classList.contains('correct')) {
       mistakes++;
-      addColor(country, 'incorrect');
+      country.classList.add('incorrect');
     }
 
     if (points == input.value) {
+      const result = document.querySelector('.result');
+
       result.innerHTML = `Koniec gry, Twój wynik: <span class="hl">${(input.value-mistakes-s2/100)}</span>`;
       toSelect.classList.add('inactive');
       info.classList.add('inactive');
@@ -129,10 +120,10 @@ function startGame() {
     }
 
     updatePoints(points, mistakes);
-    toSelect.innerHTML = `Zaznacz: <span class="hl">${countriesArr[random]}</span>`;
-    console.log(countriesArr);
+    toSelect.innerHTML = `Zaznacz: <span class="hl">${countriesArr[0]}</span>`;
 }))}
 
+//if touchscreen
 
 const g = document.querySelector('.g');
 let indicator = 0;
@@ -152,6 +143,7 @@ function is_touch_device() {
   return mq(query);
 }
 
+//zoom
 
 if(is_touch_device() == false) {
   g.addEventListener('contextmenu', (e) => {
@@ -166,24 +158,30 @@ if(is_touch_device() == false) {
     
     indicator++;
     const svg = document.querySelector('svg');
-    
-    svg.setAttribute('viewBox', `0 0 ${Math.abs(viewbox1-w/2+50)} ${Math.abs(viewbox2-h/2+50)}`);
-  
     let left;
     let top;
-  
+    let adj = 50;
+
+    if(window.innerHeight < 800) {
+      
+    } else {
+      adj = 200;
+    }
+
+    svg.setAttribute('viewBox', `0 0 ${Math.abs(viewbox1-w/2+adj)} ${Math.abs(viewbox2-h/2+adj)}`);
+    
     if(x2 > w/2 && y2 > h/2) {
-      left = w/2+34-150;
-      top = h/2+34.8-150;
+      left = w/2+34-adj;;
+      top = h/2+34.8-adj;;
     } else if(x2 < w/2 && y2 > h/2) {
-      left = 34+150;
-      top = h/2+34.8-150;
+      left = 34;
+      top = h/2+34.8-adj;
     } else  if(x2 > w/2 && y2 < h/2) {
-      left = w/2+34-150;
-      top = 34.8+150;
+      left = w/2+34-adj;
+      top = 34.8;
     } else if(x2 < w/2 && y2 < h/2) {
-      left = 34+150;
-      top = 34.8+150;
+      left = 34;
+      top = 34.8;
     }
   
     g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-${left},-${top})`);
@@ -222,10 +220,10 @@ if(is_touch_device() == false) {
             top = 34.718;
           } if (left < 34) {
             left = 34;
-          } if (top > h/2+34.8-50) {
-            top = h/2+34.8-50;
-          } if (left > w/2+34-50) {
-            left = w/2+34-50;
+          } if (top > h/2+34.8-adj) {
+            top = h/2+34.8-adj;
+          } if (left > w/2+34-adj) {
+            left = w/2+34-adj;
           }
       
           g.setAttribute('transform', `matrix(0.03548236,0,0,0.03548236,-${left},-${top})`);
@@ -239,4 +237,6 @@ if(is_touch_device() == false) {
     }
     return false;
   }, false)
+} else {
+  info.classList.add('inactive');
 }

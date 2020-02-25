@@ -15,8 +15,8 @@ body {
   background-color: #ffffff;
 }
 
-svg.inactive {
-  display: none;
+svg {
+  height: 100%;
 }
 
 .bg {
@@ -30,8 +30,8 @@ svg.inactive {
 }
 
 .container {
-  width: 300px;
-  height: 150px;
+  min-width: 320px;
+  height: 130px;
   background-color: #A2D9F7;
   display: flex;
   justify-content: center;
@@ -39,7 +39,9 @@ svg.inactive {
   text-align: center;
   flex-direction: column;
   border: 1px solid #000000;
-  margin: 20px;
+  margin: 5px;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .start, .max {
@@ -87,23 +89,24 @@ svg.inactive {
 }
 
 .country.correct {
-  fill: green;
+  fill: #0cb10c;
+  cursor: default;
 }
 
 .country.correct:hover {
-  fill: green;
+  fill: #0cb10c;
 }
 
 .country.incorrect {
-  fill: red;
+  fill: #ff1a1a;
 }
 
 .country.incorrect:hover {
-  fill: red;
+  fill: #ff1a1a;
 }
 
 .country:hover {
-  fill: gray;
+  fill: #808080;
 }
 
 .info {
@@ -111,7 +114,7 @@ svg.inactive {
 }
 
 .info.wrong {
-  color: #be0808;
+  color: #ff1a1a;
 }
 
 .rounds {
@@ -131,6 +134,7 @@ svg.inactive {
   margin-right: 10px;
   padding: 3px;
   box-sizing: border-box;
+  -moz-appearance: textfield;
 }
 
 .rounds-input::-webkit-outer-spin-button, .rounds-input::-webkit-inner-spin-button {
@@ -140,10 +144,6 @@ svg.inactive {
 
 .inactive {
   display: none;
-}
-
-svg {
-  height: 100%;
 }
 
 @media (max-width: 1300px) {

@@ -16,11 +16,7 @@ body {
 }
 
 svg {
-  // height: 100vh;
-  // width: 200px;
-  &.inactive {
-    display: none;
-  }
+  height: 100%;
 }
 
 .bg {
@@ -34,8 +30,8 @@ svg {
 }
 
 .container {
-  width: 300px;
-  height: 150px;
+  min-width: 320px;
+  height: 130px;
   background-color: #A2D9F7;
   display: flex;
   justify-content: center;
@@ -43,7 +39,9 @@ svg {
   text-align: center;
   flex-direction: column;
   border: 1px solid #000000;
-  margin: 20px;
+  margin: 5px;
+  padding: 5px;
+  box-sizing: border-box;
 }
 
 .start, .max {
@@ -90,23 +88,24 @@ svg {
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 
   &.correct {
-    fill: green;
+    fill: #0cb10c;
+    cursor: default;
 
     &:hover {
-      fill: green;
+      fill: #0cb10c;
     }
   }
 
   &.incorrect {
-    fill: red;
+    fill: #ff1a1a;
 
     &:hover {
-      fill: red;
+      fill: #ff1a1a;
     }
   }
   
   &:hover {
-    fill: gray;
+    fill: #808080;
   }
 }
 
@@ -114,7 +113,7 @@ svg {
   font-size: 12px;
 
   &.wrong {
-    color: rgb(190, 8, 8);
+    color: #ff1a1a;
   }
 }
 
@@ -134,7 +133,8 @@ svg {
     margin-right: 10px;
     padding: 3px;
     box-sizing: border-box;
-    
+    -moz-appearance: textfield;
+
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -146,12 +146,6 @@ svg {
 .inactive {
   display: none;
 }
-
-svg {
-  // width: 30%;
-  height: 100%;
-}
-
 
 @media(max-width: 1300px) {
   body {
